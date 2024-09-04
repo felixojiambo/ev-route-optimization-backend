@@ -1,5 +1,4 @@
 package com.ev.RouteOptimizationSystem.services;
-
 import com.ev.RouteOptimizationSystem.dtos.TripDTO;
 import com.ev.RouteOptimizationSystem.dtos.WaypointDTO;
 import com.ev.RouteOptimizationSystem.dtos.ChargingStationDTO;
@@ -46,8 +45,10 @@ public class TripServiceImpl implements TripService {
 
         // Set waypoints
         List<Waypoint> waypoints = tripRequest.getWaypointIds().stream()
-                .map(id -> waypointRepository.findById(id)
-                        .orElseThrow(() -> new BadRequestException("Invalid Waypoint ID: " + id)))
+                .map(id -> {
+                    return waypointRepository.findById(id)
+                            .orElseThrow(() -> new BadRequestException("Invalid Waypoint ID: " + id));
+                })
                 .collect(Collectors.toList());
         trip.setWaypoints(waypoints);
 
